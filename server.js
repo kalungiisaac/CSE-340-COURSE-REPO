@@ -5,15 +5,10 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Determine environment and file paths
-const isProduction = process.env.NODE_ENV === 'production';
-const publicDir = isProduction ? path.join(__dirname, 'dist/public') : path.join(__dirname, 'public');
-const viewsDir = isProduction ? path.join(__dirname, 'dist/src/views') : path.join(__dirname, 'src/views');
-
 /**
  * Middleware
  */
-app.use(express.static(publicDir));
+app.use(express.static(path.join(__dirname, 'public')));
 
 /**
  * View Engine Setup
@@ -22,7 +17,7 @@ app.use(express.static(publicDir));
 app.set('view engine', 'ejs');
 
 // Tell Express where to find your templates
-app.set('views', viewsDir);
+app.set('views', path.join(__dirname, 'src/views'));
 
 /**
  * Routes
