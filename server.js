@@ -36,15 +36,12 @@ app.get('/projects',(req, res) => {
     const title = 'Projects';
     res.render('projects', { title });
 });
-app.get('/products',(req,res ) =>{
-    const title = 'Products';
-    res.render('products', {title});
+app.get('/categories',(req,res ) =>{
+    const title = 'Categories';
+    res.render('categories', {title});
 });
 
-app.get('/about',(req,res)=>{
-    const title = 'About';
-    res.render('about',{title})
-});
+
 /**
  * Start Server
  */
