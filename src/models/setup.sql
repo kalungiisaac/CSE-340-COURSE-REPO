@@ -81,7 +81,7 @@ INSERT INTO service_project (organization_id, title, description, location, proj
 (3, 'Holiday Meal Preparation', 'Preparing and serving meals on Christmas Day.', 'Hope Kitchen', '2024-12-25');
 
 -- =====================================================
--- ADDITIONAL PROJECTS (5 more for variety)
+-- ADDITIONAL PROJECTS (5 moRE)
 -- =====================================================
 INSERT INTO service_project (organization_id, title, description, location, project_date) VALUES
 (1, 'Youth Mentorship Program', 'Weekly mentoring sessions for at-risk youth providing guidance and academic support.', 'Youth Center, 555 Cedar St', '2024-11-05'),
@@ -94,33 +94,7 @@ INSERT INTO service_project (organization_id, title, description, location, proj
 -- VERIFY DATA
 -- =====================================================
 
--- Check total counts
-SELECT 'ORGANIZATIONS' AS table_name, COUNT(*) AS record_count FROM organization
-UNION ALL
-SELECT 'SERVICE PROJECTS' AS table_name, COUNT(*) AS record_count FROM service_project;
 
--- View all organizations
-SELECT * FROM organization;
-
--- View all projects with organization details
-SELECT 
-    o.name AS organization_name,
-    sp.title,
-    sp.description,
-    sp.location,
-    sp.project_date
-FROM service_project sp
-JOIN organization o ON sp.organization_id = o.organization_id
-ORDER BY o.name, sp.project_date;
-
--- Summary: Projects per organization
-SELECT 
-    o.name AS organization_name,
-    COUNT(sp.project_id) AS number_of_projects
-FROM organization o
-LEFT JOIN service_project sp ON o.organization_id = sp.organization_id
-GROUP BY o.organization_id, o.name
-ORDER BY number_of_projects DESC;
 
 -- =====================================================
 -- HELPFUL QUERIES FOR MY APPLICATION
