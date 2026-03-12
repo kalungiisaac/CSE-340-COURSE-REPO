@@ -7,13 +7,29 @@ import { Pool } from 'pg';
  * to avoid the overhead of creating new connections for each request.
  * This improves performance and reduces load on the database server.
  *
- * Uses a connection string from environment variables for simplified setup.
- * The connection string format is:
- * postgresql://username:password@host:port/database
+ * Connection configuration can be provided in one of two ways:
+ * 1) Set a single connection string via DB_URL
+ * 2) Set individual variables (DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD)
+ *
+ * When running locally, it defaults to a reasonable local Postgres setup.
  */
+const connectionString = process.env.DB_URL ?? (() => {
+    const host = process.env.DB_HOST || 'localhost';
+    const port = process.env.DB_PORT || '5432';
+    const database = process.env.DB_NAME || 'cse340';
+    const user = process.env.DB_USER || 'postgres';
+    const password = process.env.DB_PASSWORD || 'postgres';
+
+    // NOTE: encoding the password avoids issues with special characters.
+    return `postgresql://${user}:${encodeURIComponent(password)}@${host}:${port}/${database}`;
+})();
+
+// Use SSL by default only in production unless overridden
+const useSsl = process.env.DB_SSL === 'true' || process.env.NODE_ENV === 'production';
+
 const pool = new Pool({
-    connectionString: process.env.DB_URL,
-    ssl: true
+    connectionString,
+    ssl: useSsl ? { rejectUnauthorized: false } : false
 });
 
 /**
@@ -77,8 +93,19 @@ if (process.env.NODE_ENV === 'development' && process.env.ENABLE_SQL_LOGGING ===
 /**
  * Tests the database connection by executing a simple query.
  */
+const maskConnectionString = (cs) => {
+    if (!cs) return '<empty>';
+    // Mask password in connection strings like postgresql://user:pass@host:port/db
+    return cs.replace(/(:)([^:@]+)(@)/, '$1****$3');
+};
+
 const testConnection = async () => {
     try {
+        console.log('Attempting DB connect:', {
+            connectionString: maskConnectionString(connectionString),
+            ssl: useSsl
+        });
+
         const result = await db.query('SELECT NOW() as current_time');
         console.log('Database connection successful:', result.rows[0].current_time);
         return true;

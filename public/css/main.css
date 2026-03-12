@@ -169,6 +169,16 @@ main > p {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
+.page-card {
+    background-color: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 12px;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 2rem auto;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
 .card-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -397,6 +407,45 @@ a:hover {
     color: #333;
     font-size: 1rem;
     margin: 0;
+}
+
+/* Categories Page Styles */
+.categories-page {
+    background-color: #A8D5E2;
+    padding: 3rem 2rem;
+    min-height: calc(100vh - 200px);
+}
+
+.categories-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.category-card {
+    background-color: rgba(255, 255, 255, 0.75);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+.category-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    color: #1a1a1a;
+}
+
+.category-card p {
+    margin: 0;
+    color: #333;
 }
 
 /* About Page Styles */

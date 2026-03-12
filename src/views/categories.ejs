@@ -1,21 +1,25 @@
 <%- include('partials/header') %>
 
-<main>
+<main class="categories-page">
     <h1><%= title %></h1>
 
     <h2>Our Service Categories</h2>
     <p>Explore the various service categories available through our network.</p>
 
-    <section class="categories">
-        <ul>
-            <li><strong>Community Outreach</strong> - Local projects that support neighborhood well-being.</li>
-            <li><strong>Education & Tutoring</strong> - Help learners of all ages grow and succeed for a great future.</li>
-            <li><strong>Environmental Initiatives</strong> - Volunteer for cleanups, tree planting, and conservation.</li>
-            <li><strong>Health & Wellness</strong> - Support clinics, fitness, and mental health programs.</li>
-            <li><strong>Technology & Innovation</strong> - Assist with digital literacy, coding, and tech access.</li>
-        </ul>
-    </section>
-
+    <% if (!categories || categories.length === 0) { %>
+        <div class="category-card">
+            <p>No categories available at this time.</p>
+        </div>
+    <% } else { %>
+        <div class="categories-container">
+            <% categories.forEach(category => { %>
+                <div class="category-card">
+                    <h3><%= category.name %></h3>
+                    <p><%= category.description %></p>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
 </main>
 
 <%- include('partials/footer') %>

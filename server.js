@@ -6,6 +6,7 @@ import { dirname } from 'path';
 import { testConnection } from './src/models/db.js';
 import { getAllOrganizations } from './src/models/organizations.js';
 import { getProjectsReport } from './src/models/projects.js';
+import { getAllCategories } from './src/models/categories.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
@@ -58,9 +59,15 @@ app.get('/projects', async (req, res) => {
         res.status(500).send('Unable to load projects at this time.');
     }
 });
-app.get('/categories',(req,res ) =>{
-    const title = 'Categories';
-    res.render('categories', {title});
+app.get('/categories', async (req, res) => {
+    try {
+        const categories = await getAllCategories();
+        const title = 'Categories';
+        res.render('categories', { title, categories });
+    } catch (error) {
+        console.error('Failed to load categories:', error);
+        res.status(500).send('Unable to load categories at this time.');
+    }
 });
 
 
